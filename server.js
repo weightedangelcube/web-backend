@@ -5,8 +5,44 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-app.get('/', (req, res) => {
-    res.send('Hello, world!');
+app.get('/books', (req, res) => {
+    let url = "https://api.hardcover.app/v1/graphql";
+    let options = {
+        method: "post",
+        headers: {
+            "Authorization": "Bearer " + process.env.HARDCOVER_KEY
+        },
+        data: { 
+            query: `
+                list_books(
+                    where: {
+                        user_books: {
+                            user_id: {_eq: 38349}, 
+                            status_id: {_eq: 2}
+                        }
+                    }
+                    distinct_on: book_id
+                    limit: 5
+                    offset: 0
+                ) {
+                    book {
+                        title
+                        contributions {
+                            author {
+                                name
+                            }
+                        }
+                    }
+                }`
+        }
+    }
+    axios.get(url, options)
+        .then(function (response) {
+            res.status(200).send(response.data);
+        })
+        .catch(function (error) {
+            res.status(500).send(error.response.status);
+        });
 })  
 
 app.use(cors());
