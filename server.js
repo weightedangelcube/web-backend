@@ -45,6 +45,22 @@ app.get('/books', (req, res) => {
         });
 })  
 
+app.get('/music', (req, res) => {
+    let url = "https://ws.audioscrobbler.com/2.0/";
+    let options = {
+        params: {
+            method: "user.getrecenttracks",
+            user: "angelcube__",
+            limit: 5,
+            api_key: process.env.LASTFM_KEY,
+            format: "json"
+        }
+    }
+    axios.get(url, options).then(function (response) {
+        res.send(response.data);
+    });
+})  
+
 app.use(cors());
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
