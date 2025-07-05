@@ -61,6 +61,20 @@ app.get('/music', (req, res) => {
     });
 })  
 
+app.get('/games', (req, res) => {
+    let url = "http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/";
+    let options = {
+        params: {
+            key: process.env.STEAM_KEY,
+            steamid: "76561199245582776",
+            format: "json"
+        }
+    }
+    axios.get(url, options).then(function (response) {
+        res.send(response.data);
+    });
+})  
+
 app.use(cors());
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
