@@ -71,7 +71,7 @@ app.get('/music', cors(corsOptions), (req, res) => {
 })  
 
 app.get('/games', cors(corsOptions), (req, res) => {
-    let url = "http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/";
+    let url = "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/";
     let options = {
         params: {
             key: process.env.STEAM_KEY,
