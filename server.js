@@ -75,6 +75,21 @@ app.get('/games', (req, res) => {
     });
 })  
 
+app.get('/code', (req, res) => {
+    let url = "https://hackatime.hackclub.com/api/v1/stats";
+    let options = {
+        headers: {
+            "Authorization": "Bearer " + process.env.HACKATIME_KEY
+        }
+    }
+    axios.get(url, options).then(function (response) {
+        res.send(response.data);
+    });
+
+    // this is so ass
+})  
+
+
 app.use(cors());
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
