@@ -5,16 +5,11 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
+app.use(cors({
+    origin: "https://angelcube.dev"
+}));
 
-const corsOptions = {
-    origin: [
-        "https://angelcube.dev",
-        "https://localhost"
-    ],
-    optionsSuccessStatus: 200
-}
-
-app.get('/books', cors(corsOptions), (req, res) => {
+app.get('/books', (req, res) => {
     let url = "https://api.hardcover.app/v1/graphql";
     let options = {
         method: "post",
@@ -54,7 +49,7 @@ app.get('/books', cors(corsOptions), (req, res) => {
         });
 })  
 
-app.get('/music', cors(corsOptions), (req, res) => {
+app.get('/music', (req, res) => {
     let url = "https://ws.audioscrobbler.com/2.0/";
     let options = {
         params: {
@@ -70,7 +65,7 @@ app.get('/music', cors(corsOptions), (req, res) => {
     });
 })  
 
-app.get('/games', cors(corsOptions), (req, res) => {
+app.get('/games', (req, res) => {
     let url = "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/";
     let options = {
         params: {
@@ -84,7 +79,7 @@ app.get('/games', cors(corsOptions), (req, res) => {
     });
 })  
 
-app.get('/code', cors(corsOptions), (req, res) => {
+app.get('/code', (req, res) => {
     let url = "https://hackatime.hackclub.com/api/v1/stats";
     let options = {
         headers: {
