@@ -63,7 +63,35 @@ app.get('/music', (req, res) => {
     axios.get(url, options).then(function (response) {
         res.send(response.data);
     });
-})  
+})
+
+app.get('/mbid-lookup', (req, res) => {
+    let url = "http://musicbrainz.org/ws/2/recording/";
+    let options = {
+        params: {
+            query: "releases:" + req.query.release + " AND " + req.query.title + "",
+            fmt: "json"
+        }
+    }
+    axios.get(url, options).then(function (response) {
+        res.send(response.data.recordings[0].releases[0].id);
+    }).catch(function (error) {
+        res.status(error.response.status).send(error.response.data);
+    });
+})
+
+app.get('/coverart-lookup', (req, res) => {
+    let url = "http://coverartarchive.org/release/" + req.query.mbid;
+    let options = {
+        params: {
+        }
+    }
+    axios.get(url, options).then(function (response) {
+        res.send(response.data);
+    }).catch(function (error) {
+        res.status(error.response.status).send(error.response.data);
+    });
+})
 
 app.get('/games', (req, res) => {
     let url = "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/";
